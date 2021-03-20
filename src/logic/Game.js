@@ -28,8 +28,7 @@ export class Game {
 	_changeTurn(){
 		if (this._isFirstPlayer()) {
 			this._activePlayer = SECOND_PLAYER;
-		}
-		if (this._isSecondPlayer()) {
+		} else {
 			this._activePlayer = FIRST_PLAYER;
 		}
 	}
