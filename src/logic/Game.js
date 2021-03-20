@@ -21,10 +21,6 @@ export class Game {
 		return this._activePlayer === FIRST_PLAYER;
 	}
 
-	_isSecondPlayer() {
-		return this._activePlayer === SECOND_PLAYER;
-	}
-
 	_changeTurn(){
 		if (this._isFirstPlayer()) {
 			this._activePlayer = SECOND_PLAYER;
