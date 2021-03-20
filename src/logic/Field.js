@@ -18,8 +18,4 @@ export class Field {
 	isAllCellsMarked() {
 		return this._cells.every(cell => cell.isControlled());
 	}
-
-	getCells() {
-		return this._cells;
-	}
 }

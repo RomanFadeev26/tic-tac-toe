@@ -153,8 +153,4 @@ export class Graph {
 	setCurrentVertex(vertexNumber) {
 		this._currentVertex = this._graph[vertexNumber];
 	}
-
-	getVertexes() {
-		return this._graph;
-	}
 }

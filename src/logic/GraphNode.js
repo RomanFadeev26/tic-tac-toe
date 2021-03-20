@@ -80,8 +80,4 @@ export class GraphNode {
 	isBottomRightNode() {
 		return this.isBottomNode() && this.isRightNode();
 	}
-
-	isOnEdge() {
-		return this.isTopNode() || this.isRightNode() || this.isBottomNode() || this.isLeftNode();
-	}
 }

@@ -25,7 +25,7 @@ export class Game {
 		return this._activePlayer === SECOND_PLAYER;
 	}
 
-	changeTurn(){
+	_changeTurn(){
 		if (this._isFirstPlayer()) {
 			this._activePlayer = SECOND_PLAYER;
 		}
@@ -42,7 +42,7 @@ export class Game {
 		return this._field.getMarkedPlayerCells(this._activePlayer).find(cell => cell.getCellNumber() === cellNumber);
 	}
 
-	checkTurnsInLine(line, turns) {
+	_checkTurnsInLine(line, turns) {
 		const firstTurnIndexInLine = line.indexOf(turns[0]);
 		if(firstTurnIndexInLine === -1) {
 			return false
@@ -51,7 +51,7 @@ export class Game {
 		return JSON.stringify(cuttedLine) === JSON.stringify(turns);
 	}
 
-	checkWin(){
+	_checkWin(){
 		this._graph.setCurrentVertex(this._lastTurn);
 
 		const playerTurns = this._field.getMarkedPlayerCells(this._activePlayer).map(cell => cell.getCellNumber()).sort();
@@ -60,18 +60,22 @@ export class Game {
 			return false;
 		}
 
-		const horizontalLine = this.getHorizontalLine();
-		const verticalLine = this.getVerticalLine();
-		const leftDiagonal = this.getDiagonalLineFromLeft();
+		const horizontalLine = this._getHorizontalLine();
+		const verticalLine = this._getVerticalLine();
+		const leftDiagonal = this._getDiagonalLineFromLeft();
 		const rightDiagonal = this.getDiagonalLineFromRight();
 
-		this._isFinished = this.checkTurnsInLine(horizontalLine, playerTurns)
-		|| this.checkTurnsInLine(verticalLine, playerTurns)
-		|| this.checkTurnsInLine(leftDiagonal, playerTurns)
-		|| this.checkTurnsInLine(rightDiagonal, playerTurns);
+		this._isFinished = this._checkTurnsInLine(horizontalLine, playerTurns)
+		|| this._checkTurnsInLine(verticalLine, playerTurns)
+		|| this._checkTurnsInLine(leftDiagonal, playerTurns)
+		|| this._checkTurnsInLine(rightDiagonal, playerTurns);
+
+		if(this._field.isAllCellsMarked()) {
+			this._isFinished = true;
+		}
 	}
 
-	getHorizontalLine() {
+	_getHorizontalLine() {
 		const graph = this._graph;
 
 		const horizontal = [graph.getCurrentVertex().getVertex()];
@@ -90,7 +94,7 @@ export class Game {
 		return horizontal.sort();
 	}
 
-	getVerticalLine() {
+	_getVerticalLine() {
 		const graph = this._graph;
 
 		const vertical = [graph.getCurrentVertex().getVertex()];
@@ -109,7 +113,7 @@ export class Game {
 		return vertical.sort();
 	}
 
-	getDiagonalLineFromLeft() {
+	_getDiagonalLineFromLeft() {
 		const graph = this._graph;
 
 		const leftDiagonal = [graph.getCurrentVertex().getVertex()];
@@ -150,10 +154,10 @@ export class Game {
 	makeTurn(cellNumber){
 		this._field.markCell(this._activePlayer, cellNumber);
 		this._lastTurn = cellNumber;
-		this.checkWin();
+		this._checkWin();
 
-		if (this._isFinished) {
-			this.changeTurn();
+		if (!this._isFinished) {
+			this._changeTurn();
 		}
 	}
 }
