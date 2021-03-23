@@ -7,11 +7,12 @@ const SECOND_PLAYER = 'o';
 export class Game {
 	constructor({
 		sizeForWin,
-		fieldSize
+		graph,
+		field
 	}) {
+		this._graph = graph;
+		this._field = field;
 		this._sizeForWin = sizeForWin;
-		this._graph = new Graph(fieldSize);
-		this._field = new Field(fieldSize);
 		this._activePlayer = 'x';
 		this._lastTurn = 0;
 		this._isFinished = false;
@@ -58,7 +59,7 @@ export class Game {
 		const horizontalLine = this._getHorizontalLine();
 		const verticalLine = this._getVerticalLine();
 		const leftDiagonal = this._getDiagonalLineFromLeft();
-		const rightDiagonal = this.getDiagonalLineFromRight();
+		const rightDiagonal = this._getDiagonalLineFromRight();
 
 		this._isFinished = this._checkTurnsInLine(horizontalLine, playerTurns)
 		|| this._checkTurnsInLine(verticalLine, playerTurns)
@@ -127,7 +128,7 @@ export class Game {
 		return leftDiagonal.sort();
 	}
 
-	getDiagonalLineFromRight() {
+	_getDiagonalLineFromRight() {
 		const graph = this._graph;
 
 		const rightDiagonal = [graph.getCurrentVertex().getVertex()];
