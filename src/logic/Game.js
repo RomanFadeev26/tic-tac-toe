@@ -1,6 +1,3 @@
-import {Graph} from './Graph';
-import {Field} from './Field';
-
 const FIRST_PLAYER = 'x';
 const SECOND_PLAYER = 'o';
 
